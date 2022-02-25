@@ -1,10 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Microsoft.EntityFrameworkCore;
-using UdemyEFCore.DatabaseFirst.DAL;
+using UdemyEFCore.CodeFirst;
+using UdemyEFCore.CodeFirst.DAL;
 
-DbContextInitializer.Build();
-
+Initializer.Build();
 using (var _context = new AppDbContext())
 {
     var products = await _context.Products.ToListAsync();

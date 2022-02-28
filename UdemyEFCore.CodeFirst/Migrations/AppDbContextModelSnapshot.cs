@@ -67,10 +67,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.ProductFeature", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -79,16 +76,10 @@ namespace UdemyEFCore.CodeFirst.Migrations
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductRef_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductRef_Id")
-                        .IsUnique();
 
                     b.ToTable("ProductFeature");
                 });
@@ -97,7 +88,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
                 {
                     b.HasOne("UdemyEFCore.CodeFirst.DAL.Product", "Product")
                         .WithOne("ProductFeature")
-                        .HasForeignKey("UdemyEFCore.CodeFirst.DAL.ProductFeature", "ProductRef_Id")
+                        .HasForeignKey("UdemyEFCore.CodeFirst.DAL.ProductFeature", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

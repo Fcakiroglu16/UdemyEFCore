@@ -19,5 +19,7 @@ namespace UdemyEFCore.CodeFirst.DAL
         public int Stock { get; set; }
 
         public int Barcode { get; set; }
+
+        public ProductFeature ProductFeature { get; set; }
     }
 }

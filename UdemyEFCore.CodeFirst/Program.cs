@@ -7,4 +7,7 @@ using UdemyEFCore.CodeFirst.DAL;
 Initializer.Build();
 using (var _context = new AppDbContext())
 {
+    _context.SaveChanges();
+
+    Console.WriteLine("Kaydedildi");
 }

@@ -4,7 +4,7 @@
 
 namespace UdemyEFCore.CodeFirst.Migrations
 {
-    public partial class initial : Migration
+    public partial class AddStudentAndTeacherEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,39 +36,39 @@ namespace UdemyEFCore.CodeFirst.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentTeacherManyToMany",
+                name: "StudentTeacher",
                 columns: table => new
                 {
-                    Student_Id = table.Column<int>(type: "int", nullable: false),
-                    Teacher_Id = table.Column<int>(type: "int", nullable: false)
+                    StudentsId = table.Column<int>(type: "int", nullable: false),
+                    TeachersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentTeacherManyToMany", x => new { x.Student_Id, x.Teacher_Id });
+                    table.PrimaryKey("PK_StudentTeacher", x => new { x.StudentsId, x.TeachersId });
                     table.ForeignKey(
-                        name: "FK__StudentId",
-                        column: x => x.Student_Id,
+                        name: "FK_StudentTeacher_Students_StudentsId",
+                        column: x => x.StudentsId,
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK__TeacherId",
-                        column: x => x.Teacher_Id,
+                        name: "FK_StudentTeacher_Teachers_TeachersId",
+                        column: x => x.TeachersId,
                         principalTable: "Teachers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentTeacherManyToMany_Teacher_Id",
-                table: "StudentTeacherManyToMany",
-                column: "Teacher_Id");
+                name: "IX_StudentTeacher_TeachersId",
+                table: "StudentTeacher",
+                column: "TeachersId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "StudentTeacherManyToMany");
+                name: "StudentTeacher");
 
             migrationBuilder.DropTable(
                 name: "Students");

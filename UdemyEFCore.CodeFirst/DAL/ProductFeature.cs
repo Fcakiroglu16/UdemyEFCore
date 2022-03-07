@@ -17,6 +17,6 @@ namespace UdemyEFCore.CodeFirst.DAL
         public int Height { get; set; }
         public string Color { get; set; }
 
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

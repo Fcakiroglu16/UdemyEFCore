@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,6 +15,7 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         public string Name { get; set; }
 
+        [Precision(9, 2)]
         public decimal Price { get; set; }
 
         public int Stock { get; set; }
@@ -22,8 +24,8 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         public int CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
-        public ProductFeature ProductFeature { get; set; }
+        public virtual ProductFeature ProductFeature { get; set; }
     }
 }

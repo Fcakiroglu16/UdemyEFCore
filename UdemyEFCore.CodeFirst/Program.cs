@@ -1,47 +1,42 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Microsoft.EntityFrameworkCore;
 using UdemyEFCore.CodeFirst;
 using UdemyEFCore.CodeFirst.DAL;
 
 Initializer.Build();
 using (var _context = new AppDbContext())
 {
-    //2'li join
-    // var result = _context.Categories.Join(_context.Products, x => x.Id, y => y.CategoryId, (c, p) => p).ToList();
-
-    //2'li join
-    //var result2 = (from c in _context.Categories
-    //               join p in _context.Products on c.Id equals p.CategoryId
-    //               select new
-    //               {
-    //                   CategoryName = c.Name,
-    //                   Productname = p.Name,
-    //                   ProductPrice = p.Price
-
-    //               }).ToList();
 
 
 
 
+    var leftJoinResult = await (from p in _context.Products
+                                join pf in _context.productFeatures on p.Id equals pf.Id into pflist
+                                from pf in pflist.DefaultIfEmpty()
+                                select new
+                                {
+                                    ProductName = p.Name,
+                                    ProductColor = pf.Color,
+                                    ProductWidth = (int?)pf.Width == null ? 5 : pf.Width
 
-    //3'lü join
-    var result = _context.Categories
-        .Join(_context.Products, c => c.Id, p => p.CategoryId, (c, p) => new { c, p })
-        .Join(_context.productFeatures, x => x.p.Id, y => y.Id, (c, pf) => new
-        {
-            CategoryName = c.c.Name,
-            ProductName = c.p.Name,
-            ProductFeatureColor = pf.Color
 
-        });
+                                }).ToListAsync();
 
-    Console.WriteLine("");
 
-    //3'lü join
-    var result2 = (from c in _context.Categories
-                   join p in _context.Products on c.Id equals p.CategoryId
-                   join pf in _context.productFeatures on p.Id equals pf.Id
-                   select new { c, p, pf }).ToList();
+
+    var rightJoinResult = await (from pf in _context.productFeatures
+                                 join p in _context.Products on pf.Id equals p.Id into plist
+                                 from p in plist.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     ProductName = p.Name,
+                                     ProductPrice = (decimal?)p.Price,
+                                     ProductColor = pf.Color,
+                                     ProductWidth = pf.Width
+
+
+                                 }).ToListAsync();
 
 
 

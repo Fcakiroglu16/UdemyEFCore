@@ -11,50 +11,36 @@ using (var _context = new AppDbContext())
 
 
 
-    var leftJoinResult = await (from p in _context.Products
-                                join pf in _context.productFeatures on p.Id equals pf.Id into pflist
-                                from pf in pflist.DefaultIfEmpty()
-                                select new
-                                {
-                                    ProductName = p.Name,
-                                    ProductColor = pf.Color,
-                                    ProductWidth = (int?)pf.Width == null ? 5 : pf.Width
+    var left = await (from p in _context.Products
+                      join pf in _context.productFeatures on p.Id equals pf.Id into pfList
+                      from pf in pfList.DefaultIfEmpty()
+                      select new
+                      {
+                          Id = p.Id,
+                          Name = p.Name,
+                          Color = pf.Color
+
+                      }).ToListAsync();
+
+    // Query syntax
+    var right = await (from pf in _context.productFeatures
+                       join p in _context.Products on pf.Id equals p.Id into pList
+                       from p in pList.DefaultIfEmpty()
+                       select new
+                       {
+                           Id = p.Id,
+                           Name = p.Name,
+                           Color = pf.Color
+
+                       }).ToListAsync();
 
 
-                                }).ToListAsync();
-
-
-
-    var rightJoinResult = await (from pf in _context.productFeatures
-                                 join p in _context.Products on pf.Id equals p.Id into plist
-                                 from p in plist.DefaultIfEmpty()
-                                 select new
-                                 {
-                                     ProductName = p.Name,
-                                     ProductPrice = (decimal?)p.Price,
-                                     ProductColor = pf.Color,
-                                     ProductWidth = pf.Width
-
-
-                                 }).ToListAsync();
-
-
+    var outerJoin = left.Union(right);
 
 
 
 
     Console.WriteLine("");
-
-
-
-
-
-
-
-
-
-
-
 
 
 

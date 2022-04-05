@@ -8,37 +8,20 @@ Initializer.Build();
 using (var _context = new AppDbContext())
 {
 
+    var id = 5;
+
+    decimal price = 100;
+
+    var products = await _context.Products.FromSqlRaw("select * from products").ToListAsync();
 
 
+    //parametre
+    var product = await _context.Products.FromSqlRaw("select * from products where id={0}", id).FirstAsync();
 
-    var left = await (from p in _context.Products
-                      join pf in _context.productFeatures on p.Id equals pf.Id into pfList
-                      from pf in pfList.DefaultIfEmpty()
-                      select new
-                      {
-                          Id = p.Id,
-                          Name = p.Name,
-                          Color = pf.Color
-
-                      }).ToListAsync();
-
-    // Query syntax
-    var right = await (from pf in _context.productFeatures
-                       join p in _context.Products on pf.Id equals p.Id into pList
-                       from p in pList.DefaultIfEmpty()
-                       select new
-                       {
-                           Id = p.Id,
-                           Name = p.Name,
-                           Color = pf.Color
-
-                       }).ToListAsync();
+    var products2 = await _context.Products.FromSqlRaw("select * from products where  price>{0}", price).ToListAsync();
 
 
-    var outerJoin = left.Union(right);
-
-
-
+    var products3 = await _context.Products.FromSqlInterpolated($"select * from products where  price>{price}").ToListAsync();
 
     Console.WriteLine("");
 

@@ -11,7 +11,7 @@ namespace UdemyEFCore.CodeFirst.DAL
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductFeature> productFeatures { get; set; }
 
-        public DbSet<ProductFull> productFulls { get; set; }
+
 
 
 
@@ -29,7 +29,7 @@ namespace UdemyEFCore.CodeFirst.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<ProductFull>().HasNoKey().ToView("productwithfeature");
+
 
             base.OnModelCreating(modelBuilder);
         }

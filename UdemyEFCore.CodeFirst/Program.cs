@@ -14,7 +14,8 @@ Initializer.Build();
 using (var _context = new AppDbContext())
 {
 
-    var products = _context.Products.ToList();
+    var productsWithFeatures = _context.Products.TagWith(@"1. satır
+2. satır").Include(x => x.ProductFeature).Where(x => x.Price > 100).ToList();
 
 
     Console.WriteLine("");

@@ -42,17 +42,6 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().Property(x => x.IsDeleted).HasDefaultValue(false);
-
-            if (Barcode != default(int))
-            {
-                modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted && p.Barcode == Barcode);
-            }
-            else
-            {
-                modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
-            }
-
 
 
             base.OnModelCreating(modelBuilder);

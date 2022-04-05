@@ -35,7 +35,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.Product", b =>
@@ -56,6 +56,11 @@ namespace UdemyEFCore.CodeFirst.Migrations
                         .HasPrecision(9, 2)
                         .HasColumnType("decimal(9,2)");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -71,7 +76,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.ProductFeature", b =>
@@ -91,7 +96,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("productFeatures", (string)null);
+                    b.ToTable("productFeatures");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.Product", b =>

@@ -11,7 +11,7 @@ using UdemyEFCore.CodeFirst.DAL;
 namespace UdemyEFCore.CodeFirst.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220405111136_initial")]
+    [Migration("20220405205944_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,11 @@ namespace UdemyEFCore.CodeFirst.Migrations
                     b.Property<decimal>("DiscountPrice")
                         .HasPrecision(9, 2)
                         .HasColumnType("decimal(9,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()

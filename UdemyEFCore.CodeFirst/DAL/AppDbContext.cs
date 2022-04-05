@@ -7,6 +7,20 @@ namespace UdemyEFCore.CodeFirst.DAL
     public class AppDbContext : DbContext
     {
 
+
+
+        private readonly int Barcode;
+
+        public AppDbContext(int barcode)
+        {
+            Barcode = barcode;
+        }
+
+        public AppDbContext()
+        {
+
+        }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductFeature> productFeatures { get; set; }
@@ -28,6 +42,16 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>().Property(x => x.IsDeleted).HasDefaultValue(false);
+
+            if (Barcode != default(int))
+            {
+                modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted && p.Barcode == Barcode);
+            }
+            else
+            {
+                modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
+            }
 
 
 

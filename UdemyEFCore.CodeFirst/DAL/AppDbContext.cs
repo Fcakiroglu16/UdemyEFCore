@@ -11,9 +11,9 @@ namespace UdemyEFCore.CodeFirst.DAL
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductFeature> productFeatures { get; set; }
 
-        public DbSet<ProductEssential> ProductEssentials { get; set; }
+        public DbSet<ProductEssential> productEssentials { get; set; }
 
-        public DbSet<ProductWithFeature> ProductWithFeatures { get; set; }
+
 
 
         //public DbSet<Person> People { get; set; }
@@ -28,9 +28,9 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ProductEssential>().HasNoKey().ToSqlQuery("select Name,Price From Products");
 
-            modelBuilder.Entity<ProductEssential>().HasNoKey();
-            modelBuilder.Entity<ProductWithFeature>().HasNoKey();
+
             base.OnModelCreating(modelBuilder);
         }
     }

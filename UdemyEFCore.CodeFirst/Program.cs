@@ -9,13 +9,14 @@ using (var _context = new AppDbContext())
 {
 
 
+    var products = _context.productEssentials.Where(x => x.Price > 200).ToList();
 
-    var products = await _context.ProductEssentials.FromSqlRaw("select  Name,Price from products").ToListAsync();
-
-
-    var productsWithFeature = await _context.ProductWithFeatures.FromSqlRaw("select p.Id,p.Name,p.Price, pf.Color,pf.Height  from Products p inner join  ProductFeatures pf on p.Id = pf.Id ").ToListAsync();
 
     Console.WriteLine("");
+
+
+
+
 
 
 

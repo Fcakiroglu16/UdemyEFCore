@@ -94,40 +94,6 @@ namespace UdemyEFCore.CodeFirst.Migrations
                     b.ToTable("productFeatures", (string)null);
                 });
 
-            modelBuilder.Entity("UdemyEFCore.CodeFirst.Models.ProductEssential", b =>
-                {
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.ToTable("ProductEssentials", (string)null);
-                });
-
-            modelBuilder.Entity("UdemyEFCore.CodeFirst.Models.ProductWithFeature", b =>
-                {
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.ToTable("ProductWithFeatures", (string)null);
-                });
-
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.Product", b =>
                 {
                     b.HasOne("UdemyEFCore.CodeFirst.DAL.Category", "Category")

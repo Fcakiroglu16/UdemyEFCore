@@ -3,19 +3,17 @@
 using Microsoft.EntityFrameworkCore;
 using UdemyEFCore.CodeFirst;
 using UdemyEFCore.CodeFirst.DAL;
+using UdemyEFCore.CodeFirst.Models;
 
 Initializer.Build();
 using (var _context = new AppDbContext())
 {
 
 
-    var products = _context.productEssentials.Where(x => x.Price > 200).ToList();
+    var products = _context.productFulls.Where(x => x.Width > 100).ToList();
 
 
-    Console.WriteLine("");
-
-
-
+    Console.WriteLine();
 
 
 

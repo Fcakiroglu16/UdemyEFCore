@@ -1,16 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using UdemyEFCore.CodeFirst.Models;
 
 namespace UdemyEFCore.CodeFirst.DAL
 {
     public class AppDbContext : DbContext
     {
 
-
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-
         public DbSet<ProductFeature> productFeatures { get; set; }
+
+        public DbSet<ProductEssential> ProductEssentials { get; set; }
+
+        public DbSet<ProductWithFeature> ProductWithFeatures { get; set; }
 
 
         //public DbSet<Person> People { get; set; }
@@ -25,6 +28,9 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<ProductEssential>().HasNoKey();
+            modelBuilder.Entity<ProductWithFeature>().HasNoKey();
             base.OnModelCreating(modelBuilder);
         }
     }

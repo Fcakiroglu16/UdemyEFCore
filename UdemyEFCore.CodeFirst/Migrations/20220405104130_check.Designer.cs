@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UdemyEFCore.CodeFirst.DAL;
 
@@ -10,9 +11,10 @@ using UdemyEFCore.CodeFirst.DAL;
 namespace UdemyEFCore.CodeFirst.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220405104130_check")]
+    partial class check
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.Product", b =>
@@ -71,7 +73,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.ProductFeature", b =>
@@ -91,7 +93,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("productFeatures", (string)null);
+                    b.ToTable("productFeatures");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.Models.ProductEssential", b =>
@@ -103,7 +105,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("ProductEssentials", (string)null);
+                    b.ToTable("ProductEssentials");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.Models.ProductWithFeature", b =>
@@ -125,7 +127,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("ProductWithFeatures", (string)null);
+                    b.ToTable("ProductWithFeatures");
                 });
 
             modelBuilder.Entity("UdemyEFCore.CodeFirst.DAL.Product", b =>

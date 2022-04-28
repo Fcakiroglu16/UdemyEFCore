@@ -9,12 +9,6 @@ namespace UdemyEFCore.CodeFirst.DAL
 
 
 
-        private readonly int Barcode;
-
-        public AppDbContext(int barcode)
-        {
-            Barcode = barcode;
-        }
 
         public AppDbContext()
         {
@@ -26,21 +20,13 @@ namespace UdemyEFCore.CodeFirst.DAL
         public DbSet<ProductFeature> productFeatures { get; set; }
 
 
-        public DbSet<ProductFull> productFulls { get; set; }
-
-        public DbSet<ProductCount> ProductCount { get; set; }
 
 
         //public DbSet<Person> People { get; set; }
         //public DbSet<Student> Students { get; set; }
         //public DbSet<Teacher> Teachers { get; set; }
 
-        public IQueryable<ProductWithFeature> GetProductWithFeatures(int categoryId) => FromExpression(() => GetProductWithFeatures(categoryId));
 
-        public int GetProductCount(int categoryId)
-        {
-            throw new NotSupportedException("Bu method ef core tarafından çalıştırılmaktadır.");
-        }
 
 
 
@@ -53,17 +39,6 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            modelBuilder.Entity<ProductFull>().ToFunction("fc_product_full");
-
-
-            modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeatures), new[] { typeof(int) })!).HasName("fc_product_full_with_parameters");
-
-
-            modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductCount), new[] { typeof(int) })!).HasName("fc_get_product_count");
-
-            modelBuilder.Entity<ProductCount>().HasNoKey();
-
 
             base.OnModelCreating(modelBuilder);
         }

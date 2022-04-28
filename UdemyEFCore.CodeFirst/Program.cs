@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using UdemyEFCore.CodeFirst;
 using UdemyEFCore.CodeFirst.DAL;
+using UdemyEFCore.CodeFirst.DTOs;
 using UdemyEFCore.CodeFirst.Models;
 
 Initializer.Build();
@@ -14,19 +15,29 @@ Initializer.Build();
 
 using (var _context = new AppDbContext())
 {
+    var products = await _context.Products.Select(x => new ProductDto
+    {
+        CategoryName = x.Category.Name,
+        ProductName = x.Name,
+        ProductPrice = x.Price,
+        Width = (int?)x.ProductFeature.Width
 
-    var product = await _context.GetProductWithFeatures(1).Where(x => x.Width > 100).ToListAsync();
+
+    }).Where(x => x.Width > 10).ToListAsync();
 
 
 
-    var categories = await _context.Categories.Select(x => new
+    var categories = _context.Categories.Select(x => new ProductDto2
     {
         CategoryName = x.Name,
-        ProductCount = _context.GetProductCount(x.Id)
-    }).Where(x => x.ProductCount > 10).ToListAsync();
+        ProductNames = String.Join(",", x.Products.Select(z => z.Name)),
+        TotalPrice = x.Products.Sum(x => x.Price),
+        TotalWidth = (int?)x.Products.Select(x => x.ProductFeature.Width).Sum()
 
-    int categoryId = 1;
-    var productCount = _context.ProductCount.FromSqlInterpolated($"select  dbo.fc_get_product_count({categoryId}) as Count").First().Count2;
+    }
+    ).Where(y => y.TotalPrice > 100).OrderBy(x => x.TotalPrice).ToList();
+
+
 
 
     Console.WriteLine("");

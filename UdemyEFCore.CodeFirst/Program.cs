@@ -1,10 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using AutoMapper.QueryableExtensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using UdemyEFCore.CodeFirst;
 using UdemyEFCore.CodeFirst.DAL;
 using UdemyEFCore.CodeFirst.DTOs;
+using UdemyEFCore.CodeFirst.Mappers;
 using UdemyEFCore.CodeFirst.Models;
 
 Initializer.Build();
@@ -15,32 +17,66 @@ Initializer.Build();
 
 using (var _context = new AppDbContext())
 {
-    var products = await _context.Products.Select(x => new ProductDto
-    {
-        CategoryName = x.Category.Name,
-        ProductName = x.Name,
-        ProductPrice = x.Price,
-        Width = (int?)x.ProductFeature.Width
+
+    //var productsDto = _context.Products.Select(x => new ProductDto()
+    //{
+    //    Id = x.Id,
+    //    Name = x.Name,
+    //    Price = x.Price,
+    //    DiscountPrice = x.DiscountPrice,
+    //    Stock = x.Stock
 
 
-    }).Where(x => x.Width > 10).ToListAsync();
+    //}).ToList();
 
 
+    // var product = _context.Products.ToList();
 
-    var categories = _context.Categories.Select(x => new ProductDto2
-    {
-        CategoryName = x.Name,
-        ProductNames = String.Join(",", x.Products.Select(z => z.Name)),
-        TotalPrice = x.Products.Sum(x => x.Price),
-        TotalWidth = (int?)x.Products.Select(x => x.ProductFeature.Width).Sum()
+    //var productDto = ObjectMapper.Mapper.Map<List<ProductDto>>(product);
 
-    }
-    ).Where(y => y.TotalPrice > 100).OrderBy(x => x.TotalPrice).ToList();
+    var productDto = _context.Products.ProjectTo<ProductDto>(ObjectMapper.Mapper.ConfigurationProvider).Where(x => x.Price > 10).ToList();
 
 
 
 
     Console.WriteLine("");
+
+
+
+
+
+
+
+
+
+
+
+    //var products = await _context.Products.Select(x => new ProductDto
+    //{
+    //    CategoryName = x.Category.Name,
+    //    ProductName = x.Name,
+    //    ProductPrice = x.Price,
+    //    Width = (int?)x.ProductFeature.Width
+
+
+    //}).Where(x => x.Width > 10).ToListAsync();
+
+
+
+    //var categories = _context.Categories.Select(x => new ProductDto2
+    //{
+    //    CategoryName = x.Name,
+    //    ProductNames = String.Join(",", x.Products.Select(z => z.Name)),
+    //    TotalPrice = x.Products.Sum(x => x.Price),
+    //    TotalWidth = (int?)x.Products.Select(x => x.ProductFeature.Width).Sum()
+
+    //}
+    //).Where(y => y.TotalPrice > 100).OrderBy(x => x.TotalPrice).ToList();
+
+
+
+
+
 
     #region Data Insert
     //var category = new Category() { Name = "Defterler" };

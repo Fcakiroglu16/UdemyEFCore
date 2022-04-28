@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using UdemyEFCore.CodeFirst;
 using UdemyEFCore.CodeFirst.DAL;
@@ -14,8 +15,18 @@ Initializer.Build();
 using (var _context = new AppDbContext())
 {
 
-    var productsWithFeatures = _context.Products.TagWith(@"1. satır
-2. satır").Include(x => x.ProductFeature).Where(x => x.Price > 100).ToList();
+    var product = await _context.GetProductWithFeatures(1).Where(x => x.Width > 100).ToListAsync();
+
+
+
+    var categories = await _context.Categories.Select(x => new
+    {
+        CategoryName = x.Name,
+        ProductCount = _context.GetProductCount(x.Id)
+    }).Where(x => x.ProductCount > 10).ToListAsync();
+
+    int categoryId = 1;
+    var productCount = _context.ProductCount.FromSqlInterpolated($"select  dbo.fc_get_product_count({categoryId}) as Count").First().Count2;
 
 
     Console.WriteLine("");

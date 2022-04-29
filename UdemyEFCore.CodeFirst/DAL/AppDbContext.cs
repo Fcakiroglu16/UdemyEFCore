@@ -1,15 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Data.Common;
 using UdemyEFCore.CodeFirst.Models;
 
 namespace UdemyEFCore.CodeFirst.DAL
 {
     public class AppDbContext : DbContext
     {
+        private DbConnection _connection;
 
-
-
-
+        public AppDbContext(DbConnection connection)
+        {
+            _connection = connection;
+        }
         public AppDbContext()
         {
 
@@ -33,8 +36,18 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            Initializer.Build();
-            optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information).UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon"));
+
+            if (_connection == default(DbConnection))
+            {
+                Initializer.Build();
+                optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information).UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon"));
+            }
+            else
+            {
+                optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information).UseSqlServer(_connection);
+            }
+
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

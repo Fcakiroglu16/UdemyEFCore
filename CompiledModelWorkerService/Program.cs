@@ -21,6 +21,13 @@ IHost host = Host.CreateDefaultBuilder(args)
             options.UseSqlServer(context.Configuration.GetConnectionString("SqlCon"));
 
               options.UseModel(MyCompiledModels.AppDbContextModel.Instance);
+
+            if(context.HostingEnvironment.IsDevelopment())
+            {
+                options.EnableDetailedErrors();
+                options.EnableSensitiveDataLogging();
+               
+            }
         });
 
 

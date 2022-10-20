@@ -1,22 +1,24 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AutoMapper.QueryableExtensions;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Configuration;
-using System.Data.Common;
-using UdemyEFCore.CodeFirst;
+using System.Diagnostics;
 using UdemyEFCore.CodeFirst.DAL;
-using UdemyEFCore.CodeFirst.DTOs;
-using UdemyEFCore.CodeFirst.Mappers;
-using UdemyEFCore.CodeFirst.Models;
 
 
-using (var context = new AppDbContext())
+
+Enumerable.Range(1, 10).ToList().ForEach(x =>
 {
+    var stopWatch = new Stopwatch();
+    stopWatch.Start();
 
-}
+    using var context = new AppDbContext();
+
+    Console.WriteLine($"Elapsed Time : {stopWatch.Elapsed}");
+
+    stopWatch.Stop();
+
+});
+
+
 
 
 

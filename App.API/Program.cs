@@ -1,3 +1,4 @@
+using App.API;
 using Microsoft.EntityFrameworkCore;
 using UdemyEFCore.CodeFirst.DAL;
 
@@ -10,27 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 {
-
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlCon"));
+    options.AddInterceptors(new LogDurationDbContextInterceptor(sp.GetRequiredService<ILogger<LogDurationDbContextInterceptor>>()));
 });
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    if (!dbContext.Categories.Any())
-    {
-        Enumerable.Range(1, 100).ToList().ForEach(async x =>
-        {
-
-            await dbContext.Categories.AddAsync(new() { Name = $"category-{x}" });
-            await dbContext.SaveChangesAsync();
-        });
-    }
-
-}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

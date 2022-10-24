@@ -2,12 +2,11 @@
 
 namespace UdemyEFCore.CodeFirst.DAL
 {
-
     public class Product
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        // #######.##
+
         [Precision(9, 2)]
         public decimal Price { get; set; }
 
@@ -21,9 +20,5 @@ namespace UdemyEFCore.CodeFirst.DAL
         public int CategoryId { get; set; }
 
         public bool IsDeleted { get; set; }
-
-        public virtual Category Category { get; set; }
-
-        public virtual ProductFeature ProductFeature { get; set; }
     }
 }
